@@ -1,0 +1,100 @@
+Create a database: 
+    -use my_first_db
+
+Create a students collection: 
+    -db.createCollection('students')
+
+Create 5 students: 
+    > db.students.insert({name:'Kapiolani', home_state:'FL', lucky_number:8, birthday:{month:5, day:04, year:1991}})
+    WriteResult({ "nInserted" : 1 })
+    > db.students.insert({name:'William', home_state:'CA', lucky_number:17, birthday:{month:12, day:07, year:1991}})
+    WriteResult({ "nInserted" : 1 })
+    > db.students.insert({name:'Ricardo', home_state:'VA', lucky_number:9, birthday:{month:12, day:08, year:1990}})
+    WriteResult({ "nInserted" : 1 })
+    > db.students.insert({name:'Kobi', home_state:'FL', lucky_number:3, birthday:{month:10, day:17, year:1996}})
+    WriteResult({ "nInserted" : 1 })
+    > db.students.insert({name:'James', home_state:'NY', lucky_number:7, birthday:{month:1, day:18, year:1992}})
+    WriteResult({ "nInserted" : 1 })
+
+    Get all students: 
+    > db.students.find().pretty()
+    {
+        "_id" : ObjectId("5a81bbb7a394729714aff8e5"),
+        "name" : "Kapiolani",
+        "home_state" : "FL",
+        "lucky_number" : 8,
+        "birthday" : {
+            "month" : 5,
+            "day" : 4,
+            "year" : 1991
+        }
+    }
+    {
+        "_id" : ObjectId("5a81bbe8a394729714aff8e6"),
+        "name" : "William",
+        "home_state" : "CA",
+        "lucky_number" : 17,
+        "birthday" : {
+            "month" : 12,
+            "day" : 7,
+            "year" : 1991
+        }
+    }
+    {
+        "_id" : ObjectId("5a81bc1ea394729714aff8e7"),
+        "name" : "Ricardo",
+        "home_state" : "VA",
+        "lucky_number" : 9,
+        "birthday" : {
+            "month" : 12,
+            "day" : 8,
+            "year" : 1990
+        }
+    }
+    {
+        "_id" : ObjectId("5a81bc3ea394729714aff8e8"),
+        "name" : "Kobi",
+        "home_state" : "FL",
+        "lucky_number" : 3,
+        "birthday" : {
+            "month" : 10,
+            "day" : 17,
+            "year" : 1996
+        }
+    }
+    {
+        "_id" : ObjectId("5a81bc5ea394729714aff8e9"),
+        "name" : "James",
+        "home_state" : "NY",
+        "lucky_number" : 7,
+        "birthday" : {
+            "month" : 1,
+            "day" : 18,
+            "year" : 1992
+        }
+    }
+
+Find students in FL and VA: 
+> db.students.find({home_state: {$eq: "FL", $eq:"VA"}})
+{ "_id" : ObjectId("5a81bc1ea394729714aff8e7"), "name" : "Ricardo", "home_state" : "VA", "lucky_number" : 9, "birthday" : { "month" : 12, "day" : 8, "year" : 1990 } }
+
+
+Find students who lucky number is greater than 3 and less than 10: 
+> db.students.find({lucky_number: {$gt: 3, $lt: 10}})
+{ "_id" : ObjectId("5a81bbb7a394729714aff8e5"), "name" : "Kapiolani", "home_state" : "FL", "lucky_number" : 8, "birthday" : { "month" : 5, "day" : 4, "year" : 1991 } }
+{ "_id" : ObjectId("5a81bc1ea394729714aff8e7"), "name" : "Ricardo", "home_state" : "VA", "lucky_number" : 9, "birthday" : { "month" : 12, "day" : 8, "year" : 1990 } }
+{ "_id" : ObjectId("5a81bc5ea394729714aff8e9"), "name" : "James", "home_state" : "NY", "lucky_number" : 7, "birthday" : { "month" : 1, "day" : 18, "year" : 1992 } }
+> 
+
+Update interests for students: 
+> db.students.update({name: 'Kapiolani'}, {$set: {interests: ['coding', 'brunch', 'sleeping in']}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.students.update({name: 'Will'}, {$set: {interests: ['coding', 'brunch', 'sleeping in', 'girls']}})
+WriteResult({ "nMatched" : 0, "nUpserted" : 0, "nModified" : 0 })
+> db.students.update({name: 'James'}, {$set: {interests: ['coding', 'brunch', 'sleeping in', 'boys']}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.students.update({name: 'Ricardo'}, {$set: {interests: ['coding', 'brunch', 'sleeping in', 'taxes']}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.students.update({name: 'Ricardo'}, {$set: {interests: ['coding', 'brunch', 'sleeping in']}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.students.find().pretty()
